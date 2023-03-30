@@ -14,6 +14,7 @@ namespace Weather
             string szukanyZnak = "°";
             string znakKoncowy = ">";
 
+
             while (true)
             {
                 Console.WriteLine("Podaj nazwe miasta");
@@ -23,20 +24,28 @@ namespace Weather
                 WebClient wc = new WebClient();
                 string dane = wc.DownloadString(adres);
 
-                int indx = dane.IndexOf(szukanyZnak);
-                int aktualnaPozycja = indx;
+                try
+                {
+                    int indx = dane.IndexOf(szukanyZnak);
+                    int aktualnaPozycja = indx;
 
-                while (dane.Substring(aktualnaPozycja, 1) != znakKoncowy)
-                    aktualnaPozycja--;
+                    while (dane.Substring(aktualnaPozycja, 1) != znakKoncowy)
+                        aktualnaPozycja--;
 
-                string wynik = dane.Substring(aktualnaPozycja + 1, indx - aktualnaPozycja + 1);
+                    string wynik = dane.Substring(aktualnaPozycja + 1, indx - aktualnaPozycja + 1);
+                    Console.WriteLine(wynik);
 
-                Console.WriteLine(wynik);
+                }
+                catch (Exception)
+                {
+
+                    Console.WriteLine("Nie udało się pobrać temperatury");
+                    continue;
+                }
+
+
+                Console.ReadKey();
             }
-
-
-            Console.ReadKey();
-
+            }
         }
     }
-}
